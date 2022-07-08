@@ -1,0 +1,25 @@
+{
+    "users": [
+      { "id": 1, "name": "fiston", "role": "admin" },
+      { "id": 2, "name": "egide", "role": "employee", "tasks": [{"id":1, "title": "to study"}, {"id":1, "title": "to study"}, {"id":1, "title": "to study"}] },
+      { "id": 3, "name": "keve", "role": "employee", "tasks": [{"id":1, "title": "to study"}] }
+    ]
+  }
+
+  {
+    "employees": [
+      { "id": 1, "name": "fiston", "role": "admin" },
+      { "id": 2, "name": "egide", "role": "employee" },
+      { "id": 3, "name": "keve", "role": "employee" }
+    ],
+    "admins": [
+        { "id": 1, "name": "fiston", "role": "admin" },
+        { "id": 2, "name": "egide", "role": "employee" },
+        { "id": 3, "name": "keve", "role": "employee" }
+      ],
+    "tasks": [
+        {"id":1, "title": "to study", "emplyeeId": 1}, 
+        {"id":2, "title": "to study", "emplyeeId": 2}, 
+        {"id":3, "title": "to study", "emplyeeId": 1}
+    ]
+  }
