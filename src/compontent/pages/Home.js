@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
 
 const doc = new jsPDF();

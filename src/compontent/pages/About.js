@@ -1,55 +1,89 @@
 import {useState, useEffect} from 'react'
-import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { employeeSelector, getEmployees, createEmployees, updateEmployees, deleteEmployees } from '../../features/employees'
 
 import { ListGroup, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const About = () => {
-  const [newItem, setNewItem] = useState('')
-  const [todos, setTodos] = useState([])
+  const [newEmployee, setNewEmployee] = useState(null)
+  const [employeeId, setEmployeeId] = useState(null)
 
-  const handleChange = (e) => {
-    setNewItem(   {
-      todoValue: e.target.value,
-    },)
-  }
+  const { employees } = useSelector(employeeSelector)
 
-  const newValue = newItem
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getEmployees())
+  }, [dispatch])
 
   const handleSubmit = () => {
-    setTodos([...newItem, newValue])
+    const data= {
+      name: newEmployee,
+      role: 'employee'
+    }
+   dispatch(createEmployees(data))
+   dispatch(getEmployees())
 
-    console.log(todos)
 
   }
 
-  const todoList = axios.get('https://jsonplaceholder.typicode.com/todos', {
-    params: {
-      _limit: 10
-     }
-  }).then((allTodos) => {
-    setTodos(allTodos.data)
+  const handleUpdate = (id, name) => {
+    console.log(id, name)
+    setNewEmployee(name)
+    setEmployeeId(id)
+  }
 
-  })
+  const handleSaveEdit =()=>{
+    const data= {
+      id: employeeId,
+      name: newEmployee,
+      role: 'employee'
+    }
+   dispatch(updateEmployees(data))
+   dispatch(getEmployees())
 
-  console.log('todos', todos)
+  }
 
+  const handleChange = (e) => {
+    setNewEmployee( e.target.value)
+  }
+
+  const handleDelete = (id) => {
+    console.log(id)
+    dispatch(deleteEmployees(id))
+    dispatch(getEmployees())
+  }
 
     return (
       <div style={{padding: '20px'}}>
-          <Form.Label htmlFor="inputPassword5">Add Todo</Form.Label>
-          <Form.Control
-            type="text"
-            id="inputPassword5"
-            aria-describedby="passwordHelpBlock"
-            onChange={handleChange}
-          />
-          <Button variant="success" style={{margin: '30px'}} onClick={handleSubmit}>
-            Add Todo
+         <div>
+            <Form.Label htmlFor="inputPassword5">Add Todo</Form.Label>
+            <Form.Control
+              defaultValue= {newEmployee}
+              type="text"
+              id="inputPassword5"
+              aria-describedby="passwordHelpBlock"
+              onChange={handleChange}
+            />
+            <Button variant="success" style={{margin: '30px'}} onClick={handleSubmit}>
+              Add Employee
+            </Button>
+            <Button variant="success" style={{margin: '30px'}} onClick={handleSaveEdit}>
+              Save Edit
+            </Button>
+          </div>
+        {employees?.map((employee) => 
+        <ListGroup key={employee.id}>
+          <ListGroup.Item>{employee.id} . {employee.name}
+          <Button value={employee.id} variant="danger" size="sm" style={{ marginLeft: '5px', float: 'right', fontSize: '0.70rem'}} onClick={()=>handleDelete(employee.id)}>
+            Delete
           </Button>
-        {todos?.map((todo) => 
-        <ListGroup key={todo.id}>
-          <ListGroup.Item>{todo.title}</ListGroup.Item>
+          <Button value={employee.name} variant="success" size="sm" style={{ float: 'right', fontSize: '0.70rem'}} onClick={()=>handleUpdate(employee.id, employee.name)}>
+            update
+          </Button>
+          </ListGroup.Item>
         </ListGroup>
         )} 
       </div>

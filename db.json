@@ -1,0 +1,39 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "name": "fiston hn",
+      "role": "employee"
+    },
+    {
+      "id": 2,
+      "name": "egide klab",
+      "role": "employee"
+    },
+    {
+      "id": 3,
+      "name": "keve",
+      "role": "employee"
+    },
+    {
+      "name": "klab",
+      "role": "employee",
+      "id": 4
+    },
+    {
+      "name": "klab",
+      "role": "employee",
+      "id": 5
+    },
+    {
+      "name": "klab kacyiru",
+      "role": "employee",
+      "id": 6
+    },
+    {
+      "name": "klab kacyiru",
+      "role": "employee",
+      "id": 7
+    }
+  ]
+}

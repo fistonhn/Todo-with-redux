@@ -4,9 +4,21 @@ import axios from 'axios'
 // get all todos
 export const getTodos = createAsyncThunk('todos/getTodos', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    const response = await axios.get('http://localhost:7000/employees')
 
-    console.log('response', response)
+    return response.data
+  } catch (error) {
+    if (!error.response) {
+      return rejectWithValue(error)
+    }
+    return rejectWithValue(error.response.data)
+  }
+})
+
+// create employee
+export const createTodo = createAsyncThunk('todos/createTodo', async (data, { rejectWithValue }) => {
+  try {
+    const response = await axios.post('http://localhost:7000/employees', data)
 
     return response.data
   } catch (error) {
@@ -26,6 +38,7 @@ export const todoSlice = createSlice({
     todosLoading: false,
     error: null,
     success: null,
+    createMessage: null
   },
   extraReducers: {
     // get all todos
@@ -38,6 +51,21 @@ export const todoSlice = createSlice({
     },
 
     [getTodos.rejected]: (state, { payload }) => {
+      state.status = 'failed'
+      state.error = payload.error || payload.toString()
+    },
+
+    //create todo
+
+    [createTodo.pending]: (state) => {
+      state.status = 'loading'
+    },
+    [createTodo.fulfilled]: (state, { payload }) => {
+      state.status = 'success'
+      state.createMessage = payload.message
+    },
+
+    [createTodo.rejected]: (state, { payload }) => {
       state.status = 'failed'
       state.error = payload.error || payload.toString()
     },
